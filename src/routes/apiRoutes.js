@@ -10,6 +10,16 @@ const {
     deleteDish,
 } = require('../controllers/dishController');
 
+const {
+    createChef,
+    getAllChefs,
+} = require('../controllers/chefControllers');
+
+router.post('/chefs', createChef);
+router.get('/chefs', getAllChefs);  
+
+const { create } = require('../models/dishModel');
+
 // 1. GET /dishes → Get all dishes (Show menu)
 router.get('/dishes', getAllDishes);
 
@@ -24,5 +34,6 @@ router.put('/dishes/:id', updateDish);
 
 // 5. DELETE /dishes/:id → Delete a dish
 router.delete('/dishes/:id', deleteDish);
+
 
 module.exports = router;
