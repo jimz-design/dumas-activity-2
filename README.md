@@ -1,7 +1,14 @@
-### Why did I choose to Embed the [Review]?
+### Authentication vs Authorization:
+# What is the difference between Authentication and Authorization in our code?
 
-- I chose to embed the reviews because each review belongs to one user. Since one user can have multiple reviews (one-to-many relationship), embedding keeps all related data in a single document. This makes it easier and faster to retrieve a user and their reviews together.
+- Authentication checks who the user is by verifying their login details like email and password. Authorization checks what the user is allowed to do after they log in, such as accessing certain routes, data, or admin features.
 
-### Why I Chose to Reference the Chef
+### Security (bcrypt):
+# Why did we use bcryptjs instead of saving passwords as plain text in MongoDB?
 
-- I chose to reference the Chef because a chef can be associated with many records (such as recipes), and the same chef data may be reused in different documents. Referencing avoids duplicating chef information and keeps the data more organized and consistent. Therefore, it is important to use referencing if the data or values are get getting complex or grow at the time. It helps to prevent any data error or challenges within the system.
+- We use bcryptjs to hash passwords before saving them in the database. This makes the passwords secure because the real password is not stored directly. If someone gets access to the database, they will only see the hashed version, not the actual password.
+
+### JWT Structure:
+# What does the protect middleware do when it receives a JWT from the client?
+
+- When the protect middleware receives a JSON Web Token from the client, it verifies if the token is valid. If the token is correct, it extracts the user information and allows access to protected routes. If the token is invalid or missing, the request is denied.

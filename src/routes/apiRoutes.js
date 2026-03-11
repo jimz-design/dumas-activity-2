@@ -1,7 +1,7 @@
-const express = require('express' );
-const router = express. Router( );
+const express = require('express');
+const router = express.Router();
 
-// Import the Controller
+// Import controllers
 const {
     getAllDishes,
     createDish,
@@ -15,25 +15,30 @@ const {
     getAllChefs,
 } = require('../controllers/chefControllers');
 
-router.post('/chefs', createChef);
-router.get('/chefs', getAllChefs);  
+// Import middleware
+const { protect, authorize } = require('../middleware/authMiddleware');
 
-const { create } = require('../models/dishModel');
+// Create chef
+router.post('/chefs', protect, authorize('admin'), createChef);
 
-// 1. GET /dishes → Get all dishes (Show menu)
+// Get all chefs
+router.get('/chefs', protect, getAllChefs);
+
+
+// 1. GET /dishes → Get all dishes
 router.get('/dishes', getAllDishes);
 
-// 2. POST /dishes → Create a new dish
-router.post('/dishes', createDish);
+// 2. POST /dishes → Create a dish 
+router.post('/dishes', protect, authorize('admin', 'manager'), createDish);
 
-// 3. GET /dishes/:id → Get a specific dish by ID
+// 3. GET /dishes/:id → Get a dish by ID
 router.get('/dishes/:id', getDishById);
 
-// 4. PUT /dishes/:id → Update a dish (e.g., change meat)
-router.put('/dishes/:id', updateDish);
+// 4. PUT /dishes/:id → Update dish 
+router.put('/dishes/:id', protect, authorize('admin', 'manager'), updateDish);
 
-// 5. DELETE /dishes/:id → Delete a dish
-router.delete('/dishes/:id', deleteDish);
+// 5. DELETE /dishes/:id → Delete dish 
+router.delete('/dishes/:id', protect, authorize('admin'), deleteDish);
 
 
 module.exports = router;
